@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulir Registrasi Biznet Home (Google Sheets)</title>
-    
+    const apiKey =
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
@@ -139,7 +139,7 @@
                 
                 // ⚠️ PERINGATAN: API KEY INI TERLIHAT DI CLIENT. SANGAT TIDAK AMAN UNTUK PRODUKSI.
                 // Ganti dengan API Key Gemini Anda.
-                const apiKey = "GANTI_DENGAN_API_KEY_GEMINI_ANDA"; 
+                const apiKey = "AIzaSyDNbUhmTtdpftZq15MctBuicsGryUuq2d0"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
                 
                 try {
