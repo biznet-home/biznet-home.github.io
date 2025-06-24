@@ -190,7 +190,7 @@
                 };
 
                 // GANTI DENGAN URL WEB APP ANDA DARI GOOGLE APPS SCRIPT
-                const scriptURL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_DEPLOYMENT_ANDA/exec';
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbwdL05nYySmVITZVOm9Jiq3rgI64pBO1QRMZcxAcx_iZ3GvgfYo7DywxrCTsYlt5OhG/exec';
 
                 try {
                     const response = await fetch(scriptURL, {
