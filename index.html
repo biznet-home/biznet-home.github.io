@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Registrasi Biznet Home (Stabil)</title>
-    <!-- Memuat Pustaka CSS & JS dari CDN -->
+    <title>Formulir Registrasi Biznet Home (Siap Publikasi)</title>
+    
+    <!-- Memuat Pustaka CSS & JS dari CDN (Praktik Terbaik untuk Hosting) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-    <!-- PUSTAKA PDF DIPERBARUI -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    
     <!-- Memuat Font Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* CSS Kustom untuk Aplikasi */
         body { font-family: 'Inter', sans-serif; }
         #image-preview { width: 100%; height: auto; max-height: 220px; object-fit: contain; border-radius: 0.5rem; }
         input[type="file"] { display: none; }
@@ -40,7 +43,7 @@
             </header>
 
             <form id="data-form" class="space-y-6">
-                <!-- HTML Formulir tidak berubah -->
+                <!-- Bagian Unggah KTP -->
                 <div>
                     <label class="block text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">Unggah Foto KTP</label>
                     <div id="preview-area" class="w-full p-2 border-2 border-dashed border-blue-200 dark:border-blue-700 rounded-lg text-center hidden"><img id="image-preview" alt="Pratinjau KTP"></div>
@@ -51,6 +54,8 @@
                     <input type="file" id="ktp-upload" accept="image/*" disabled>
                     <p id="image-status" class="text-sm mt-2 text-center font-medium h-5"></p>
                 </div>
+                
+                <!-- Hasil Ekstraksi Data (Otomatis) -->
                 <div id="ocr-results" class="space-y-4 hidden">
                      <div>
                          <label for="nama" class="block text-sm font-medium text-blue-900 dark:text-blue-100">Nama Lengkap</label>
@@ -65,6 +70,8 @@
                          <input type="text" id="tglLahir" name="tglLahir" readonly class="mt-1 block w-full px-4 py-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none text-slate-500 dark:text-slate-400" placeholder="Akan terisi otomatis...">
                     </div>
                 </div>
+                
+                <!-- Input Manual Pengguna -->
                 <div>
                     <label for="whatsapp" class="block text-sm font-medium text-blue-900 dark:text-blue-100">No. WhatsApp</label>
                     <input type="tel" id="whatsapp" name="whatsapp" required class="mt-1 block w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white" placeholder="Contoh: 081234567890">
@@ -77,6 +84,8 @@
                     <label for="alamat" class="block text-sm font-medium text-blue-900 dark:text-blue-100">Alamat Pemasangan</label>
                     <textarea id="alamat" name="alamat" rows="3" required class="mt-1 block w-full px-4 py-3 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white" placeholder="Masukkan alamat lengkap Anda"></textarea>
                 </div>
+                
+                <!-- Tombol Submit -->
                 <div>
                     <button type="submit" id="submit-btn" disabled class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 dark:disabled:bg-slate-600 disabled:cursor-not-allowed transition-colors">Kirim Data</button>
                 </div>
@@ -84,9 +93,28 @@
         </div>
     </div>
 
-    <!-- Modal (HTML tidak berubah) -->
-    <div id="crop-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-40 p-4"><div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-xl w-full"><h3 class="text-xl font-bold text-center text-blue-900 dark:text-white mb-4">Sesuaikan Frame KTP</h3><div class="img-container w-full h-64 md:h-80 mb-4"><img id="image-to-crop" src=""></div><div class="flex justify-between space-x-4"><button id="cancel-crop-btn" class="w-full bg-slate-200 text-slate-800 dark:bg-slate-600 dark:text-white py-2 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors">Batal</button><button id="crop-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">Potong & Gunakan</button></div></div></div>
-    <div id="notification-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 p-4"><div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-sm mx-auto text-center"><p id="notification-message" class="text-lg text-slate-800 dark:text-white"></p><div id="modal-buttons" class="mt-4 flex flex-col sm:flex-row-reverse gap-3"><button id="close-modal-btn" class="w-full bg-slate-400 text-white py-2 rounded-lg hover:bg-slate-500 dark:bg-slate-600 dark:hover:bg-slate-500 transition-colors">Tutup</button><button id="download-pdf-btn" class="w-full bg-sky-600 text-white py-2 rounded-lg hover:bg-sky-700 transition-colors hidden">Unduh Bukti (PDF)</button></div></div></div>
+    <!-- Modal untuk Crop Gambar -->
+    <div id="crop-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-40 p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-xl w-full">
+            <h3 class="text-xl font-bold text-center text-blue-900 dark:text-white mb-4">Sesuaikan Frame KTP</h3>
+            <div class="img-container w-full h-64 md:h-80 mb-4"><img id="image-to-crop" src=""></div>
+            <div class="flex justify-between space-x-4">
+                <button id="cancel-crop-btn" class="w-full bg-slate-200 text-slate-800 dark:bg-slate-600 dark:text-white py-2 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors">Batal</button>
+                <button id="crop-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">Potong & Gunakan</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal untuk Notifikasi -->
+    <div id="notification-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-sm mx-auto text-center">
+            <p id="notification-message" class="text-lg text-slate-800 dark:text-white"></p>
+            <div id="modal-buttons" class="mt-4 flex flex-col sm:flex-row-reverse gap-3">
+                <button id="close-modal-btn" class="w-full bg-slate-400 text-white py-2 rounded-lg hover:bg-slate-500 dark:bg-slate-600 dark:hover:bg-slate-500 transition-colors">Tutup</button>
+                <button id="download-pdf-btn" class="w-full bg-sky-600 text-white py-2 rounded-lg hover:bg-sky-700 transition-colors hidden">Unduh Bukti (PDF)</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
         // --- Titik Masuk Utama Aplikasi ---
@@ -94,9 +122,8 @@
 
         function main() {
             // --- Pemeriksaan Pustaka Penting ---
-            // Pemeriksaan diperbarui untuk autoTable API
             if (typeof Cropper === 'undefined' || typeof window.jspdf === 'undefined' || typeof qrcode === 'undefined' || typeof window.jspdf.jsPDF.API.autoTable !== 'function') {
-                document.getElementById('critical-error-banner').textContent = 'Gagal memuat komponen penting (PDF/Tabel). Silakan muat ulang halaman.';
+                document.getElementById('critical-error-banner').textContent = 'Gagal memuat komponen penting. Silakan periksa koneksi internet Anda dan muat ulang halaman.';
                 document.getElementById('critical-error-banner').style.display = 'block';
                 document.getElementById('app-content').style.display = 'none';
                 return; 
@@ -109,25 +136,158 @@
 
             // --- Deklarasi Variabel Global ---
             let userId, cropper, ktpImageBase64 = null, lastSubmittedData = null;
-            const BLUR_THRESHOLD = 100;
+            const BLUR_THRESHOLD = 100; // Ambang batas untuk deteksi gambar buram
             
-            // --- Definisi Fungsi ---
-            const showCropper = (imageUrl) => { /* ... */ };
-            const resetImageInput = () => { /* ... */ };
-            const calculateBlurScore = (imageDataUrl) => { /* ... */ };
-            const generateAndDownloadPDF = (data, docId) => { /* ... */ };
-            const showNotification = (message, isSuccess) => { /* ... */ };
-            const extractKtpData = async (base64ImageData) => { /* ... */ };
-
             // --- Implementasi Fungsi ---
-            Object.assign(window, {
-                showCropper: (imageUrl) => { elements.imageToCrop.src = imageUrl; elements.cropModal.classList.remove('hidden'); if (cropper) cropper.destroy(); cropper = new Cropper(elements.imageToCrop, { aspectRatio: 85.6 / 54, viewMode: 2, dragMode: 'move', background: false, autoCropArea: 0.9 }); },
-                resetImageInput: () => { elements.dataForm.reset(); elements.ktpUpload.value = ''; if(cropper) cropper.destroy(); elements.cropModal.classList.add('hidden'); elements.previewArea.classList.add('hidden'); elements.uploadBox.classList.remove('hidden'); elements.imageStatus.textContent = ''; elements.submitBtn.disabled = true; ktpImageBase64 = null; lastSubmittedData = null; elements.ocrResults.classList.add('hidden'); elements.nama.value = ''; elements.nik.value = ''; elements.tglLahir.value = ''; },
-                calculateBlurScore: (imageDataUrl) => new Promise((resolve, reject) => { const i = new Image(); i.src = imageDataUrl; i.onload = () => { const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true }); c.width = i.width; c.height = i.height; x.drawImage(i, 0, 0); const d = x.getImageData(0, 0, c.width, c.height); const g = []; for (let j = 0; j < d.data.length; j += 4) g.push(d.data[j] * 0.299 + d.data[j + 1] * 0.587 + d.data[j + 2] * 0.114); const l = [0, 1, 0, 1, -4, 1, 0, 1, 0]; let s = 0, q = 0, v = []; for (let y = 1; y < c.height - 1; y++) for (let z = 1; z < c.width - 1; z++) { let a = 0, k = 0; for (let ky = -1; ky <= 1; ky++) for (let kx = -1; kx <= 1; kx++) a += g[(y + ky) * c.width + (z + kx)] * l[k++]; v.push(a); s += a; q += a * a; } const m = s / v.length; resolve(q / v.length - m * m); }; i.onerror = reject; }),
-                generateAndDownloadPDF: (data, docId) => { const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4'); const pageW = doc.internal.pageSize.getWidth(), pageH = doc.internal.pageSize.getHeight(), margin = 15; const primaryColor = '#1e3a8a', secondaryColor = '#eef2ff', textColor = '#111827', grayColor = '#6b7280'; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(textColor); doc.setFont('helvetica', 'bold'); doc.text('BIZNET HOME', pageW - margin, margin, { align: 'right' }); doc.setFont('helvetica', 'normal'); doc.text('www.biznethome.net', pageW - margin, margin + 5, { align: 'right' }); doc.setFontSize(22); doc.setFont('helvetica', 'bold'); doc.setTextColor(primaryColor); doc.text('BUKTI REGISTRASI', pageW / 2, margin + 35, { align: 'center' }); doc.setLineWidth(0.5); doc.setDrawColor(primaryColor); doc.line(margin, margin + 40, pageW - margin, margin + 40); doc.setFontSize(10); doc.setTextColor(grayColor); doc.text('ID Dokumen:', margin, margin + 50); doc.setTextColor(textColor); doc.setFont('helvetica', 'bold'); doc.text(docId, margin + 28, margin + 50); doc.setTextColor(grayColor); doc.setFont('helvetica', 'normal'); doc.text('Tanggal Terbit:', pageW - margin - 45, margin + 50); doc.setTextColor(textColor); doc.setFont('helvetica', 'bold'); doc.text(new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric'}), pageW - margin, margin + 50, { align: 'right' }); doc.autoTable({ startY: margin + 65, head: [['KETERANGAN', 'DATA PELANGGAN']], body: [['Nama Lengkap', data.nama || 'Tidak Terdeteksi'], ['NIK', data.nik || 'Tidak Terdeteksi'], ['Tanggal Lahir', data.tglLahir || 'Tidak Terdeteksi'], ['Alamat Email', data.email || 'Tidak Terdeteksi'], ['No. WhatsApp', data.whatsapp || 'Tidak Terdeteksi'], ['Alamat Pemasangan', data.alamat || 'Tidak Terdeteksi']], theme: 'grid', headStyles: { fillColor: primaryColor, textColor: '#ffffff', fontStyle: 'bold', halign: 'center' }, styles: { font: 'helvetica', fontSize: 10 }, alternateRowStyles: { fillColor: secondaryColor }, margin: { left: margin, right: margin } }); let yPos = doc.autoTable.previous.finalY + 15; doc.setFillColor(secondaryColor); doc.rect(margin, yPos, pageW - (margin * 2), 10, 'F'); doc.setFontSize(12); doc.setFont('helvetica', 'bold'); doc.setTextColor(primaryColor); doc.text('DOKUMEN TERLAMPIR', margin + 5, yPos + 7); yPos += 15; doc.addImage(data.ktpImageBase64, 'JPEG', margin, yPos, 85.6, 54); doc.setDrawColor(grayColor); doc.rect(margin, yPos, 85.6, 54, 'S'); const qr = qrcode(0, 'L'); qr.addData(docId); qr.make(); const qrImgData = qr.createDataURL(4); doc.addImage(qrImgData, 'PNG', pageW - margin - 35, yPos + 12, 30, 30); doc.setFontSize(8); doc.setTextColor(grayColor); doc.text('Pindai untuk Verifikasi', pageW - margin - 20, yPos + 47, { align: 'center'}); const footerY = pageH - margin - 10; doc.setDrawColor(primaryColor); doc.line(margin, footerY, pageW - margin, footerY); doc.setFontSize(9); doc.setTextColor(grayColor); doc.setFont('helvetica', 'italic'); doc.text('Dokumen ini diterbitkan secara otomatis oleh sistem dan sah tanpa tanda tangan basah.', pageW/2, footerY + 5, { align: 'center' }); doc.setDrawColor(primaryColor); doc.setLineWidth(1.5); doc.rect(5, 5, pageW - 10, pageH - 10, 'S'); doc.save(`registrasi-biznet-${data.nama.split(' ')[0]}-${docId.substring(0, 4)}.pdf`); },
-                showNotification: (message, isSuccess) => { elements.notificationMessage.textContent = message; elements.downloadPdfBtn.classList.toggle('hidden', !isSuccess); elements.notificationModal.classList.remove('hidden'); },
-                extractKtpData: async (base64ImageData) => { elements.imageStatus.innerHTML = `<div class="spinner"></div><span>Mengekstrak data dari KTP...</span>`; const prompt = `From the provided image of an Indonesian KTP (identity card), extract the following information and return it as a valid JSON object. 1. "nama": The full name. 2. "nik": The 16-digit NIK. 3. "tglLahir": The date of birth, formatted as DD-MM-YYYY. If a value is not found, return null.`; const payload = { contents: [{ parts: [{ text: prompt }, { inline_data: { mime_type: "image/jpeg", data: base64ImageData.split(',')[1] } }] }], generationConfig: { responseMimeType: "application/json" } }; const apiKey = ""; const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`; try { const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); if (!response.ok) throw new Error(`API request failed: ${response.status}`); const result = await response.json(); const ocrData = JSON.parse(result.candidates[0].content.parts[0].text); elements.nama.value = ocrData.nama || 'Tidak Terdeteksi'; elements.nik.value = ocrData.nik || 'Tidak Terdeteksi'; elements.tglLahir.value = ocrData.tglLahir || 'Tidak Terdeteksi'; elements.imageStatus.innerHTML = `<span class="text-blue-600 dark:text-blue-400">✓ Ekstraksi data berhasil.</span>`; elements.submitBtn.disabled = false; } catch (error) { console.error("OCR Error:", error); elements.nama.value = 'Gagal'; elements.nik.value = 'Gagal'; elements.tglLahir.value = 'Gagal'; elements.imageStatus.innerHTML = `<span class="text-yellow-500">Gagal mengekstrak data, silakan lanjutkan.</span>`; elements.submitBtn.disabled = false; } }
+            
+            // Menampilkan modal crop
+            const showCropper = (imageUrl) => { 
+                elements.imageToCrop.src = imageUrl; 
+                elements.cropModal.classList.remove('hidden'); 
+                if (cropper) cropper.destroy(); 
+                cropper = new Cropper(elements.imageToCrop, { aspectRatio: 85.6 / 54, viewMode: 2, dragMode: 'move', background: false, autoCropArea: 0.9 }); 
+            };
+            
+            // Mereset form dan input gambar
+            const resetImageInput = () => { 
+                elements.dataForm.reset(); 
+                elements.ktpUpload.value = ''; 
+                if(cropper) cropper.destroy(); 
+                elements.cropModal.classList.add('hidden'); 
+                elements.previewArea.classList.add('hidden'); 
+                elements.uploadBox.classList.remove('hidden'); 
+                elements.imageStatus.textContent = ''; 
+                elements.submitBtn.disabled = true; 
+                ktpImageBase64 = null; 
+                lastSubmittedData = null; 
+                elements.ocrResults.classList.add('hidden'); 
+                elements.nama.value = ''; 
+                elements.nik.value = ''; 
+                elements.tglLahir.value = ''; 
+            };
+            
+            // Menganalisis tingkat blur pada gambar
+            const calculateBlurScore = (imageDataUrl) => new Promise((resolve, reject) => { 
+                const i = new Image(); 
+                i.src = imageDataUrl; 
+                i.onload = () => { 
+                    const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true }); 
+                    c.width = i.width; c.height = i.height; 
+                    x.drawImage(i, 0, 0); 
+                    const d = x.getImageData(0, 0, c.width, c.height); 
+                    const g = []; 
+                    for (let j = 0; j < d.data.length; j += 4) g.push(d.data[j] * 0.299 + d.data[j + 1] * 0.587 + d.data[j + 2] * 0.114); 
+                    const l = [0, 1, 0, 1, -4, 1, 0, 1, 0]; 
+                    let s = 0, q = 0, v = []; 
+                    for (let y = 1; y < c.height - 1; y++) 
+                        for (let z = 1; z < c.width - 1; z++) { 
+                            let a = 0, k = 0; 
+                            for (let ky = -1; ky <= 1; ky++) 
+                                for (let kx = -1; kx <= 1; kx++) 
+                                    a += g[(y + ky) * c.width + (z + kx)] * l[k++]; 
+                            v.push(a); s += a; q += a * a; 
+                        } 
+                    const m = s / v.length; 
+                    resolve(q / v.length - m * m); 
+                }; 
+                i.onerror = reject; 
             });
+
+            // Membuat dan mengunduh PDF bukti registrasi
+            const generateAndDownloadPDF = (data, docId) => { 
+                const { jsPDF } = window.jspdf; 
+                const doc = new jsPDF('p', 'mm', 'a4'); 
+                const pageW = doc.internal.pageSize.getWidth(), pageH = doc.internal.pageSize.getHeight(), margin = 15; 
+                const primaryColor = '#1e3a8a', secondaryColor = '#eef2ff', textColor = '#111827', grayColor = '#6b7280'; 
+
+                // Header
+                doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(textColor);
+                doc.text('BIZNET HOME', pageW - margin, margin, { align: 'right' }); 
+                doc.setFont('helvetica', 'normal');
+                doc.text('www.biznethome.net', pageW - margin, margin + 5, { align: 'right' }); 
+                
+                // Judul
+                doc.setFontSize(22); doc.setFont('helvetica', 'bold'); doc.setTextColor(primaryColor); 
+                doc.text('BUKTI REGISTRASI', pageW / 2, margin + 35, { align: 'center' }); 
+                doc.setLineWidth(0.5); doc.setDrawColor(primaryColor); doc.line(margin, margin + 40, pageW - margin, margin + 40); 
+                
+                // Info Dokumen
+                doc.setFontSize(10); doc.setTextColor(grayColor); doc.text('ID Dokumen:', margin, margin + 50); 
+                doc.setTextColor(textColor); doc.setFont('helvetica', 'bold'); doc.text(docId, margin + 28, margin + 50); 
+                doc.setTextColor(grayColor); doc.setFont('helvetica', 'normal'); doc.text('Tanggal Terbit:', pageW - margin - 45, margin + 50); 
+                doc.setTextColor(textColor); doc.setFont('helvetica', 'bold'); doc.text(new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric'}), pageW - margin, margin + 50, { align: 'right' }); 
+                
+                // Tabel Data Pelanggan
+                doc.autoTable({ 
+                    startY: margin + 65, 
+                    head: [['KETERANGAN', 'DATA PELANGGAN']], 
+                    body: [['Nama Lengkap', data.nama || 'Tidak Terdeteksi'], ['NIK', data.nik || 'Tidak Terdeteksi'], ['Tanggal Lahir', data.tglLahir || 'Tidak Terdeteksi'], ['Alamat Email', data.email || 'Tidak Terdeteksi'], ['No. WhatsApp', data.whatsapp || 'Tidak Terdeteksi'], ['Alamat Pemasangan', data.alamat || 'Tidak Terdeteksi']], 
+                    theme: 'grid', 
+                    headStyles: { fillColor: primaryColor, textColor: '#ffffff', fontStyle: 'bold', halign: 'center' }, 
+                    styles: { font: 'helvetica', fontSize: 10 }, 
+                    alternateRowStyles: { fillColor: secondaryColor }, 
+                    margin: { left: margin, right: margin } 
+                }); 
+                
+                let yPos = doc.autoTable.previous.finalY + 15; 
+                
+                // Lampiran
+                doc.setFillColor(secondaryColor); doc.rect(margin, yPos, pageW - (margin * 2), 10, 'F'); 
+                doc.setFontSize(12); doc.setFont('helvetica', 'bold'); doc.setTextColor(primaryColor); 
+                doc.text('DOKUMEN TERLAMPIR', margin + 5, yPos + 7); 
+                yPos += 15; 
+                doc.addImage(data.ktpImageBase64, 'JPEG', margin, yPos, 85.6, 54); 
+                doc.setDrawColor(grayColor); doc.rect(margin, yPos, 85.6, 54, 'S'); 
+                
+                // QR Code
+                const qr = qrcode(0, 'L'); qr.addData(docId); qr.make(); 
+                const qrImgData = qr.createDataURL(4); 
+                doc.addImage(qrImgData, 'PNG', pageW - margin - 35, yPos + 12, 30, 30); 
+                doc.setFontSize(8); doc.setTextColor(grayColor); doc.text('Pindai untuk Verifikasi', pageW - margin - 20, yPos + 47, { align: 'center'}); 
+                
+                // Footer
+                const footerY = pageH - margin - 10; 
+                doc.setDrawColor(primaryColor); doc.line(margin, footerY, pageW - margin, footerY); 
+                doc.setFontSize(9); doc.setTextColor(grayColor); doc.setFont('helvetica', 'italic'); 
+                doc.text('Dokumen ini diterbitkan secara otomatis oleh sistem dan sah tanpa tanda tangan basah.', pageW/2, footerY + 5, { align: 'center' }); 
+                
+                // Border Halaman
+                doc.setDrawColor(primaryColor); doc.setLineWidth(1.5); doc.rect(5, 5, pageW - 10, pageH - 10, 'S'); 
+                
+                doc.save(`registrasi-biznet-${data.nama.split(' ')[0]}-${docId.substring(0, 4)}.pdf`); 
+            };
+            
+            // Menampilkan modal notifikasi
+            const showNotification = (message, isSuccess) => { 
+                elements.notificationMessage.textContent = message; 
+                elements.downloadPdfBtn.classList.toggle('hidden', !isSuccess); 
+                elements.notificationModal.classList.remove('hidden'); 
+            };
+            
+            // Mengekstrak data dari gambar KTP menggunakan Gemini API
+            const extractKtpData = async (base64ImageData) => { 
+                elements.imageStatus.innerHTML = `<div class="spinner"></div><span>Mengekstrak data dari KTP...</span>`; 
+                const prompt = `From the provided image of an Indonesian KTP (identity card), extract the following information and return it as a valid JSON object. 1. "nama": The full name. 2. "nik": The 16-digit NIK. 3. "tglLahir": The date of birth, formatted as DD-MM-YYYY. If a value is not found, return null.`; 
+                const payload = { contents: [{ parts: [{ text: prompt }, { inline_data: { mime_type: "image/jpeg", data: base64ImageData.split(',')[1] } }] }], generationConfig: { responseMimeType: "application/json" } }; 
+                const apiKey = ""; // API Key akan diinjeksi oleh lingkungan Canvas
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`; 
+                try { 
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); 
+                    if (!response.ok) throw new Error(`API request failed: ${response.status}`); 
+                    const result = await response.json(); 
+                    const ocrData = JSON.parse(result.candidates[0].content.parts[0].text); 
+                    elements.nama.value = ocrData.nama || 'Tidak Terdeteksi'; 
+                    elements.nik.value = ocrData.nik || 'Tidak Terdeteksi'; 
+                    elements.tglLahir.value = ocrData.tglLahir || 'Tidak Terdeteksi'; 
+                    elements.imageStatus.innerHTML = `<span class="text-blue-600 dark:text-blue-400">✓ Ekstraksi data berhasil.</span>`; 
+                    elements.submitBtn.disabled = false; 
+                } catch (error) { 
+                    console.error("OCR Error:", error); 
+                    elements.nama.value = 'Gagal'; elements.nik.value = 'Gagal'; elements.tglLahir.value = 'Gagal'; 
+                    elements.imageStatus.innerHTML = `<span class="text-yellow-500">Gagal mengekstrak data, silakan lanjutkan.</span>`; 
+                    elements.submitBtn.disabled = false; 
+                } 
+            };
             
             // --- Logika Utama & Pemasangan Event Listener ---
             Promise.all([
@@ -135,30 +295,90 @@
                 import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"),
                 import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js")
             ]).then(async ([firebaseApp, firebaseAuth, firebaseFirestore]) => {
-                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "DEMO_KEY" };
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "DEMO_KEY" }; // Gunakan config dari environment
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'; // Gunakan app_id dari environment
                 const app = firebaseApp.initializeApp(firebaseConfig);
                 const db = firebaseFirestore.getFirestore(app);
                 const auth = firebaseAuth.getAuth(app);
                 
+                // Otentikasi Pengguna
                 try {
                     const { signInWithCustomToken, signInAnonymously } = firebaseAuth;
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                    const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                    if (token) await signInWithCustomToken(auth, token);
                     else await signInAnonymously(auth);
                     userId = auth.currentUser?.uid || `anon-${crypto.randomUUID()}`;
-                    elements.ktpUpload.disabled = false;
+                    elements.ktpUpload.disabled = false; // Aktifkan tombol upload setelah otentikasi berhasil
                 } catch (error) {
                     console.error("Firebase Auth Gagal:", error);
                     elements.imageStatus.textContent = "Gagal terhubung ke server.";
                     elements.imageStatus.classList.add('text-red-500');
                 }
                 
-                elements.ktpUpload.addEventListener('change', (e) => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (event) => window.showCropper(event.target.result); reader.readAsDataURL(file); });
-                elements.cancelCropBtn.addEventListener('click', window.resetImageInput);
-                elements.cropBtn.addEventListener('click', async () => { if (!cropper) return; elements.imageStatus.className = 'text-sm mt-2 text-center text-gray-500'; elements.imageStatus.textContent = 'Menganalisis Kualitas Gambar...'; const croppedImageDataUrl = cropper.getCroppedCanvas({ width: 800, fillColor: '#fff' }).toDataURL('image/jpeg', 0.9); ktpImageBase64 = croppedImageDataUrl; elements.imagePreview.src = ktpImageBase64; elements.uploadBox.classList.add('hidden'); elements.previewArea.classList.remove('hidden'); elements.cropModal.classList.add('hidden'); try { const score = await window.calculateBlurScore(ktpImageBase64); if (score >= BLUR_THRESHOLD) { elements.imageStatus.textContent = '✓ Gambar Jelas'; elements.ocrResults.classList.remove('hidden'); await window.extractKtpData(ktpImageBase64); } else { elements.imageStatus.innerHTML = `<span class="text-red-500">✗ Gambar Buram! Harap Unggah Ulang.</span>`; ktpImageBase64 = null; } } catch (error) { elements.imageStatus.innerHTML = `<span class="text-red-500">Gagal menganalisis gambar. Coba lagi.</span>`; ktpImageBase64 = null; } });
-                elements.dataForm.addEventListener('submit', async (e) => { e.preventDefault(); if (!ktpImageBase64) { window.showNotification('Harap unggah gambar KTP yang valid.', false); return; } elements.submitBtn.disabled = true; elements.submitBtn.innerHTML = `<div class="spinner"></div><span>Mengirim...</span>`; try { const { serverTimestamp, collection, addDoc } = firebaseFirestore; const formData = { nama: elements.nama.value, nik: elements.nik.value, tglLahir: elements.tglLahir.value, whatsapp: document.getElementById('whatsapp').value, email: document.getElementById('email').value, alamat: document.getElementById('alamat').value, ktpImageBase64, userId, createdAt: serverTimestamp() }; const collectionPath = `artifacts/${appId}/public/data/submissions`; const docRef = await addDoc(collection(db, collectionPath), formData); lastSubmittedData = { data: formData, docId: docRef.id }; window.showNotification('Data Anda berhasil dikirim!', true); } catch (error) { console.error("Error saat menyimpan:", error); window.showNotification('Terjadi kesalahan. Gagal mengirim data.', false); } finally { elements.submitBtn.textContent = 'Kirim Data'; } });
-                elements.downloadPdfBtn.addEventListener('click', () => { if (lastSubmittedData) window.generateAndDownloadPDF(lastSubmittedData.data, lastSubmittedData.docId); });
-                elements.closeModalBtn.addEventListener('click', () => { elements.notificationModal.classList.add('hidden'); if(lastSubmittedData) window.resetImageInput(); });
+                // Event listener untuk input file
+                elements.ktpUpload.addEventListener('change', (e) => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (event) => showCropper(event.target.result); reader.readAsDataURL(file); });
+                
+                // Event listener untuk tombol di modal crop
+                elements.cancelCropBtn.addEventListener('click', resetImageInput);
+                elements.cropBtn.addEventListener('click', async () => { 
+                    if (!cropper) return; 
+                    elements.imageStatus.className = 'text-sm mt-2 text-center text-gray-500'; 
+                    elements.imageStatus.textContent = 'Menganalisis Kualitas Gambar...'; 
+                    const croppedImageDataUrl = cropper.getCroppedCanvas({ width: 800, fillColor: '#fff' }).toDataURL('image/jpeg', 0.9); 
+                    ktpImageBase64 = croppedImageDataUrl; 
+                    elements.imagePreview.src = ktpImageBase64; 
+                    elements.uploadBox.classList.add('hidden'); 
+                    elements.previewArea.classList.remove('hidden'); 
+                    elements.cropModal.classList.add('hidden'); 
+                    try { 
+                        const score = await calculateBlurScore(ktpImageBase64); 
+                        if (score >= BLUR_THRESHOLD) { 
+                            elements.imageStatus.textContent = '✓ Gambar Jelas'; 
+                            elements.ocrResults.classList.remove('hidden'); 
+                            await extractKtpData(ktpImageBase64); 
+                        } else { 
+                            elements.imageStatus.innerHTML = `<span class="text-red-500">✗ Gambar Buram! Harap Unggah Ulang.</span>`; 
+                            ktpImageBase64 = null; 
+                        } 
+                    } catch (error) { 
+                        elements.imageStatus.innerHTML = `<span class="text-red-500">Gagal menganalisis gambar. Coba lagi.</span>`; 
+                        ktpImageBase64 = null; 
+                    } 
+                });
+                
+                // Event listener untuk submit form
+                elements.dataForm.addEventListener('submit', async (e) => { 
+                    e.preventDefault(); 
+                    if (!ktpImageBase64) { showNotification('Harap unggah gambar KTP yang valid.', false); return; } 
+                    elements.submitBtn.disabled = true; 
+                    elements.submitBtn.innerHTML = `<div class="spinner"></div><span>Mengirim...</span>`; 
+                    try { 
+                        const { serverTimestamp, collection, addDoc } = firebaseFirestore; 
+                        const formData = { 
+                            nama: elements.nama.value, nik: elements.nik.value, tglLahir: elements.tglLahir.value, 
+                            whatsapp: document.getElementById('whatsapp').value, email: document.getElementById('email').value, alamat: document.getElementById('alamat').value, 
+                            ktpImageBase64, userId, createdAt: serverTimestamp() 
+                        }; 
+                        const collectionPath = `artifacts/${appId}/public/data/submissions`; 
+                        const docRef = await addDoc(collection(db, collectionPath), formData); 
+                        lastSubmittedData = { data: formData, docId: docRef.id }; 
+                        showNotification('Data Anda berhasil dikirim!', true); 
+                    } catch (error) { 
+                        console.error("Error saat menyimpan:", error); 
+                        showNotification('Terjadi kesalahan. Gagal mengirim data.', false); 
+                    } finally { 
+                        elements.submitBtn.textContent = 'Kirim Data'; 
+                    } 
+                });
+                
+                // Event listener untuk tombol di modal notifikasi
+                elements.downloadPdfBtn.addEventListener('click', () => { if (lastSubmittedData) generateAndDownloadPDF(lastSubmittedData.data, lastSubmittedData.docId); });
+                elements.closeModalBtn.addEventListener('click', () => { 
+                    elements.notificationModal.classList.add('hidden'); 
+                    if(lastSubmittedData && lastSubmittedData.docId) { // Reset form hanya jika pengiriman sukses
+                        resetImageInput();
+                    }
+                });
 
             });
         }
