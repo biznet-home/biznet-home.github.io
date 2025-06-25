@@ -73,8 +73,8 @@
             };
 
             // --- Variabel & Konfigurasi ---
-            const GEMINI_API_KEY = "MASUKKAN_API_KEY_GEMINI_ANDA";
-            const GOOGLE_SCRIPT_URL = 'MASUKKAN_URL_WEB_APP_GOOGLE_SCRIPT_ANDA';
+            const GEMINI_API_KEY = "AIzaSyDNbUhmTtdpftZq15MctBuicsGryUuq2d0";
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpHuog6iBn5dxcEK9XQmEO5SwxUBlvBs0m6Yvnxtjd517tafigpCIsE2v2ddgcPmiQgw/exec';
 
             let cropper, ktpImageBase64 = null, lastSubmittedData = null;
             const BLUR_THRESHOLD = 100;
