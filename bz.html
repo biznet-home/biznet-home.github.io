@@ -100,7 +100,7 @@
                 elements.notificationMessage.textContent = message; elements.downloadPdfBtn.classList.toggle('hidden', !isSuccess); elements.notificationModal.classList.remove('hidden');
             };
             const extractKtpData = async (base64ImageData) => {
-                if (!GEMINI_API_KEY || GEMINI_API_KEY === "MASUKKAN_API_KEY_GEMINI_ANDA") { elements.imageStatus.innerHTML = `<span class="text-red-500">Kunci API Gemini belum diatur.</span>`; elements.submitBtn.disabled = false; elements.ocrResults.classList.remove('hidden'); return; }
+                if (!GEMINI_API_KEY || GEMINI_API_KEY === "AIzaSyDNbUhmTtdpftZq15MctBuicsGryUuq2d0") { elements.imageStatus.innerHTML = `<span class="text-red-500">Kunci API Gemini belum diatur.</span>`; elements.submitBtn.disabled = false; elements.ocrResults.classList.remove('hidden'); return; }
                 elements.imageStatus.innerHTML = `<div class="spinner"></div><span>Mengekstrak data dari KTP...</span>`;
                 const prompt = `From the provided image of an Indonesian KTP (identity card), extract the following information and return it as a valid JSON object. 1. "nama": The full name. 2. "nik": The 16-digit NIK. 3. "tglLahir": The date of birth, formatted as DD-MM-YYYY. If a value is not found, return null.`;
                 const payload = { contents: [{ parts: [{ text: prompt }, { inline_data: { mime_type: "image/jpeg", data: base64ImageData.split(',')[1] } }] }], generationConfig: { responseMimeType: "application/json" } };
